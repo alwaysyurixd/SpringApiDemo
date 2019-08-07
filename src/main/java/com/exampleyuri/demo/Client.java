@@ -1,13 +1,24 @@
 package com.exampleyuri.demo;
 
-import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;;
+
+@Entity
 public class Client
 {
+    @Id
+    @Column(name="id")
+    private int Id;
+    @Column(name="name")
     private String Nombre;
+    @Column(name="lastname")
     private String Apellidos;
+    @Column(name="age")
     private int Edad;
-    private Date FechaNacimiento;
+    //@Column(name="birthdate")
+    //private Date FechaNacimiento;
 
     public String getNombre() {
         return Nombre;
@@ -21,13 +32,13 @@ public class Client
         this.Edad = edad;
     }
 
-    public Date getFechaNacimiento() {
+    /*public Date getFechaNacimiento() {
         return FechaNacimiento;
     }
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.FechaNacimiento = fechaNacimiento;
-    }
+    }*/
 
     public void setNombre(String nombre) {
         this.Nombre = nombre;
