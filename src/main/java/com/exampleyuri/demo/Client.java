@@ -20,6 +20,14 @@ public class Client
     //@Column(name="birthdate")
     //private Date FechaNacimiento;
 
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        this.Id = id;
+    }
+
     public String getNombre() {
         return Nombre;
     }
