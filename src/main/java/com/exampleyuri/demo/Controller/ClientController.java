@@ -1,4 +1,4 @@
-package com.exampleyuri.demo;
+package com.exampleyuri.demo.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +12,10 @@ import java.net.URI;
 import java.util.*;
 
 import javax.validation.Valid;
+
+import com.exampleyuri.demo.Repository.*;
+import com.exampleyuri.demo.Util.*;
+import com.exampleyuri.demo.Model.*;
 
 @RestController
 public class ClientController
@@ -46,5 +50,18 @@ public class ClientController
 		.toUri();
 		
 		return ResponseEntity.created(location).build();
+	}
+
+	@GetMapping("/kpideclientes")
+	public ClientKpi GetKpisClient(){
+		
+		ClientKpi kpiClientes = new ClientKpi();
+		List<Client> listaClientes = clientRepository.findAll();
+
+		
+		kpiClientes.setPromedioEdad(Util.calcularPromedio(Util.obtenerListaEdad(listaClientes)));
+		kpiClientes.setDesviacionEstandar(Util.calcularDesviacionEstandar(Util.obtenerListaEdad(listaClientes)));
+				
+		return kpiClientes;
 	}
 }
