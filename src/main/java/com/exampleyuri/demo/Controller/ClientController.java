@@ -3,6 +3,7 @@ package com.exampleyuri.demo.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,15 +43,22 @@ public class ClientController
 	public ResponseEntity<Object> createClient(@Valid @RequestBody Client cliente)
 	{
 		logger.info("createClient: " + cliente.toString());
-		Client createdClient = clientRepository.save(cliente);
-		URI location = ServletUriComponentsBuilder
-		.fromCurrentRequest()
-		.path("/{id}")
-		.buildAndExpand(createdClient.getId())
-		.toUri();
-		
-		logger.info("Created client id: " + createdClient.getId());
-		return ResponseEntity.created(location).build();
+		try
+		{
+			Client createdClient = clientRepository.save(cliente);
+			URI location = ServletUriComponentsBuilder
+			.fromCurrentRequest()
+			.path("/{id}")
+			.buildAndExpand(createdClient.getId())
+			.toUri();
+			logger.info("Created client id: " + createdClient.getId());
+			return ResponseEntity.created(location).build();
+		}
+		catch(Exception ex)
+		{
+			logger.error(ex.getMessage(), ex);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 	@GetMapping("/kpideclientes")

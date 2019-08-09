@@ -15,6 +15,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
@@ -38,8 +40,9 @@ public class Client
 
     @NotNull
     @Past
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     @Column(name="birthdate")
-    private Date FechaNacimiento;
+    private Date fechaNacimiento;
     
     @Transient
     private Date fechaProbableMuerte;
@@ -70,16 +73,16 @@ public class Client
         return Apellido;
     }
 
-    public void setApellidos(String apellido) {
+    public void setApellido(String apellido) {
         this.Apellido = apellido;
     }
 
     public Date getFechaNacimiento() {
-        return FechaNacimiento;
+        return fechaNacimiento;
     }
 
     public void setFechaNacimiento(Date fechaNacimiento) {
-        this.FechaNacimiento = fechaNacimiento;
+        this.fechaNacimiento = fechaNacimiento;
     } 
 
     public int getEdad() {
@@ -88,7 +91,7 @@ public class Client
         if (this.Edad == 0)
         {
             
-            LocalDate localdate = this.FechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate localdate = this.fechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             return Period.between(localdate, LocalDate.now()).getYears();            
         }
         else{
