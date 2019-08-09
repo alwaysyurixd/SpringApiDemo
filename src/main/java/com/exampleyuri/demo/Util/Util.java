@@ -1,5 +1,8 @@
 package com.exampleyuri.demo.Util;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,13 +49,13 @@ public class Util {
 		return Math.sqrt(desviacionEstandar / numArray.length);
 	}
 
-	public static Date calcularFechaDeceso(Client cliente) {
-		// Date fechaNacimiento = cliente.getFechaNacimiento();
-		Double anhosRestante = (Constants.ESPERANZA_VIDA_PERU - cliente.getEdad());
-		System.out.println("anhos restantes"+anhosRestante);
+	public static Date calcularFechaDeceso(Date fechaNacimiento) {
+		LocalDate localdate = fechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int añosCliente = Period.between(localdate, LocalDate.now()).getYears(); 
+		Double anosRestante = (Constants.ESPERANZA_VIDA_PERU - añosCliente);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
-		calendar.add(Calendar.YEAR, anhosRestante.intValue());
+		calendar.add(Calendar.YEAR, anosRestante.intValue());
 		
 		return calendar.getTime();
 

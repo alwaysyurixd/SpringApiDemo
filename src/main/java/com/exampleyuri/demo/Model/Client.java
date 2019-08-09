@@ -11,8 +11,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+
+import com.exampleyuri.demo.Util.Util;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -39,10 +42,27 @@ public class Client
     @Past
     @Column(name="birthdate")
     private Date FechaNacimiento;
+    
+    @Transient
+    private Date fechaProbableMuerte;
 
-    @ApiModelProperty(hidden = true,readOnly = true)
+    /*public Client()
+    {
+        this.fechaProbableMuerte = Util.calcularFechaDeceso(this.FechaNacimiento);
+    }*/
+
+    @ApiModelProperty(hidden = true, readOnly = true)
     public int getId() {
         return Id;
+    }
+
+    @ApiModelProperty(hidden = true,readOnly = true)
+    public Date getFechaProbableMuerte() {
+        return fechaProbableMuerte;
+    }
+
+    public void setFechaProbableMuerte(Date fechaProbableMuerte) {
+        this.fechaProbableMuerte = fechaProbableMuerte;
     }
 
     public void setId(int id) {
