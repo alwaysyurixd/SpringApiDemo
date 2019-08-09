@@ -1,5 +1,7 @@
 package com.exampleyuri.demo.Controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,38 +22,43 @@ import com.exampleyuri.demo.Model.*;
 @RestController
 public class ClientController
 {
+	private static final Logger logger = LoggerFactory.getLogger(ClientController.class);
 	@Autowired
 	private ClientRepository clientRepository;
 
 	@GetMapping("/listclientes")
 	public List<Client> getClients()
 	{
+		logger.info("getClients");
 		List<Client> clients = clientRepository.findAll();
 		for(Client client : clients){
 			client.setFechaProbableMuerte(Util.calcularFechaDeceso(client.getFechaNacimiento()));
 		}
+		logger.info("Nro de clientes recuperados: " + clients.size());
 		return clients;
 	}
 
 	@PostMapping("/creacliente")
 	public ResponseEntity<Object> createClient(@Valid @RequestBody Client cliente)
 	{
-		Client savedCliente = clientRepository.save(cliente);
+		logger.info("createClient: " + cliente.toString());
+		Client createdClient = clientRepository.save(cliente);
 		URI location = ServletUriComponentsBuilder
 		.fromCurrentRequest()
 		.path("/{id}")
-		.buildAndExpand(savedCliente.getId())
+		.buildAndExpand(createdClient.getId())
 		.toUri();
 		
+		logger.info("Created client id: " + createdClient.getId());
 		return ResponseEntity.created(location).build();
 	}
 
 	@GetMapping("/kpideclientes")
-	public ClientKpi GetKpisClient(){
-		
+	public ClientKpi GetKpisClient()
+	{
+		logger.info("GetKpisClient");
 		ClientKpi kpiClientes = new ClientKpi();
 		List<Client> listaClientes = clientRepository.findAll();
-
 		
 		kpiClientes.setPromedioEdad(Util.calcularPromedio(Util.obtenerListaEdad(listaClientes)));
 		kpiClientes.setDesviacionEstandar(Util.calcularDesviacionEstandar(Util.obtenerListaEdad(listaClientes)));

@@ -15,8 +15,6 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
-import com.exampleyuri.demo.Util.Util;
-
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
@@ -33,7 +31,7 @@ public class Client
 
     @NotNull
     @Column(name="lastname")
-    private String Apellidos;
+    private String Apellido;
 
     @Column(name="age")
     private int Edad;
@@ -56,22 +54,33 @@ public class Client
         return Id;
     }
 
-    @ApiModelProperty(hidden = true,readOnly = true)
-    public Date getFechaProbableMuerte() {
-        return fechaProbableMuerte;
-    }
-
-    public void setFechaProbableMuerte(Date fechaProbableMuerte) {
-        this.fechaProbableMuerte = fechaProbableMuerte;
-    }
-
     public void setId(int id) {
         this.Id = id;
-    }
+    } 
 
     public String getNombre() {
         return Nombre;
     }
+
+    public void setNombre(String nombre) {
+        this.Nombre = nombre;
+    }
+
+    public String getApellido() {
+        return Apellido;
+    }
+
+    public void setApellidos(String apellido) {
+        this.Apellido = apellido;
+    }
+
+    public Date getFechaNacimiento() {
+        return FechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.FechaNacimiento = fechaNacimiento;
+    } 
 
     public int getEdad() {
         //return Edad;
@@ -89,25 +98,14 @@ public class Client
 
     public void setEdad(int edad) {
         this.Edad = edad;        
+    }       
+
+    @ApiModelProperty(hidden = true,readOnly = true)
+    public Date getFechaProbableMuerte() {
+        return fechaProbableMuerte;
     }
 
-    public Date getFechaNacimiento() {
-        return FechaNacimiento;
-    }
-
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.FechaNacimiento = fechaNacimiento;
-    }
-
-    public void setNombre(String nombre) {
-        this.Nombre = nombre;
-    }
-
-    public String getApellidos() {
-        return Apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.Apellidos = apellidos;
+    public void setFechaProbableMuerte(Date fechaProbableMuerte) {
+        this.fechaProbableMuerte = fechaProbableMuerte;
     }
 }
