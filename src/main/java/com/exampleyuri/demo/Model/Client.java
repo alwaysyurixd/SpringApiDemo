@@ -44,6 +44,7 @@ public class Client
     @Column(name="birthdate")
     private Date fechaNacimiento;
     
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     @Transient
     private Date fechaProbableMuerte;
 
